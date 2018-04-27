@@ -1,2 +1,2 @@
 # springboot-ssh
-springboot+spring jpa data+hibernate 模板
+maven archetype原型
