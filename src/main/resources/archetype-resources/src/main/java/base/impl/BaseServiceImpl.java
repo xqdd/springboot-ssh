@@ -10,7 +10,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseServiceImpl<T, ID extends Serializable> implements com.wteam.car.base.BaseService<T, ID> {
+public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.base.BaseService<T, ID> {
 
     /**
      * 复用日志

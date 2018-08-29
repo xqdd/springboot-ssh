@@ -27,9 +27,6 @@ public class MyWebAppConfigurer extends WebMvcConfigurerAdapter {
 
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(this.crossDomainInterceptor).addPathPatterns("/**");
-        registry.addInterceptor(this.studentInterceptor)
-                .addPathPatterns("/student/**")
-                .excludePathPatterns("/student/login");
         registry.addInterceptor(this.adminInterceptor)
                 .addPathPatterns("/admin/**")
                 .excludePathPatterns("/admin/login");

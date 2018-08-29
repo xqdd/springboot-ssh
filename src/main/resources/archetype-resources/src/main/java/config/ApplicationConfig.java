@@ -24,8 +24,8 @@ public class ApplicationConfig implements ApplicationListener<ContextRefreshedEv
     public void onApplicationEvent(ContextRefreshedEvent event) {
         if (adminService.count() == 0) {
             Admin admin = new Admin();
-            admin.setName("yuequan");
-            admin.setPassword("yuequan");
+            admin.setName("seeyou");
+            admin.setPassword("seeyou");
             adminService.save(admin);
         }
     }

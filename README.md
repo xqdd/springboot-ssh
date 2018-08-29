@@ -1,2 +1,2 @@
 # springboot-ssh
-maven archetype原型
+maven spring-boot spring-jpa-data archetype原型
