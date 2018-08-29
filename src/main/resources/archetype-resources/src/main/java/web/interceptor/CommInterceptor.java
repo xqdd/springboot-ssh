@@ -1,7 +1,7 @@
 package ${groupId}.web.interceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ${groupId}.bean.Msg;
+import ${groupId}.mvc.bean.Msg;
+import ${groupId}.utils.CommUtils;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletRequestContext;
 import org.springframework.stereotype.Component;
@@ -18,8 +18,7 @@ public class CommInterceptor extends HandlerInterceptorAdapter {
         if (request != null && ServletFileUpload.isMultipartContent(request)) {
             long maxSize = 20 * 1024 * 1024;
             if (new ServletRequestContext(request).contentLength() > maxSize) {
-                response.setContentType("application/json; charset=utf-8");
-                response.getWriter().print((new ObjectMapper()).writeValueAsString(Msg.failed("msg", "请先登录")));
+                CommUtils.responseJson(response, Msg.failed("请先登录"));
                 return false;
             }
         }

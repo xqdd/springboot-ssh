@@ -7,7 +7,7 @@ spring:
       enabled: always
 
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/${artifactId}?useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=true
+    url: jdbc:mysql://127.0.0.1:3306/${artifactId}?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&useSSL=true
     username: XQDD
     password: 1234
     driver-class-name: com.mysql.jdbc.Driver

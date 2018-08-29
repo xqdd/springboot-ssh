@@ -7,7 +7,6 @@
  */
 package ${groupId};
 
-import ${groupId}.base.impl.BaseRepositoryImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,7 +15,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(
-        repositoryBaseClass = BaseRepositoryImpl.class
+        repositoryBaseClass = ${groupId}.base.impl.BaseRepositoryImpl.class
 )
 public class Application extends SpringBootServletInitializer {
 

@@ -1,10 +1,11 @@
 package ${groupId}.base.impl;
 
-import ${groupId}.base.BaseRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.io.Serializable;
 import java.util.List;
@@ -17,9 +18,9 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
      */
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private BaseRepository<T, ID> baseRepository;
+    private ${groupId}.base.BaseRepository<T, ID> baseRepository;
 
-    public BaseServiceImpl(BaseRepository<T, ID> baseRepository) {
+    public BaseServiceImpl(${groupId}.base.BaseRepository<T, ID> baseRepository) {
         this.baseRepository = baseRepository;
     }
 
@@ -31,13 +32,19 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
         return this.baseRepository.findAll(pageable);
     }
 
+
+    @Override
+    public Page<T> findAll(Specification<T> specification,Pageable pageable) {
+        return this.baseRepository.findAll(specification,pageable);
+    }
+
     public List<T> saveAll(Iterable<T> entities) {
         this.baseRepository.resetId();
         return this.baseRepository.saveAll(entities);
     }
 
     public T save(T entity) {
-        this.baseRepository.resetId();
+//        this.baseRepository.resetId();
         return this.baseRepository.save(entity);
     }
 
@@ -49,29 +56,48 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
         return this.baseRepository.getOne(id);
     }
 
+    @Override
+    public Optional<T> findOne(Specification<T> specification) {
+        return baseRepository.findOne(specification);
+    }
+
+    @Override
+    public Optional<T> findOne(Example<T> example) {
+        return baseRepository.findOne(example);
+    }
+
     public Optional<T> findById(ID id) {
         return this.baseRepository.findById(id);
     }
 
-    public void delete(ID id) {
+    @Override
+    public void deleteById(ID id) {
         this.baseRepository.deleteById(id);
     }
 
-    public boolean isExists(Object... arguments) {
-        return this.baseRepository.isExists(arguments);
+    @Override
+    public void delete(T entity) {
+        this.baseRepository.delete(entity);
     }
 
-    public Object getByPage(int pageSize, int currPage, boolean isCount, Object... criterion) {
-        return this.baseRepository.getByPage(pageSize, currPage, isCount, criterion);
-    }
 
     public long count() {
         return this.baseRepository.count();
     }
 
+    public long count(Specification<T> specification) {
+        return this.baseRepository.count(specification);
+    }
+
+    public long count(Example<T> example) {
+        return this.baseRepository.count(example);
+    }
+
+
     @Override
     public void executeSql(String... sqls) {
         baseRepository.executeSql(sqls);
     }
+
 
 }
