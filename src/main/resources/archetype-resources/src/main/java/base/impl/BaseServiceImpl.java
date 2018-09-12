@@ -1,5 +1,7 @@
 package ${groupId}.base.impl;
 
+import ${groupId}.base.BaseRepository;
+import ${groupId}.base.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Example;
@@ -11,16 +13,16 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
-public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.base.BaseService<T, ID> {
+public class BaseServiceImpl<T, ID extends Serializable> implements BaseService<T, ID> {
 
     /**
      * 复用日志
      */
     protected final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private ${groupId}.base.BaseRepository<T, ID> baseRepository;
+    private BaseRepository<T, ID> baseRepository;
 
-    public BaseServiceImpl(${groupId}.base.BaseRepository<T, ID> baseRepository) {
+    public BaseServiceImpl(BaseRepository<T, ID> baseRepository) {
         this.baseRepository = baseRepository;
     }
 
@@ -32,6 +34,10 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
         return this.baseRepository.findAll(pageable);
     }
 
+    @Override
+    public List<T> findAll(Specification<T> specification) {
+        return baseRepository.findAll(specification);
+    }
 
     @Override
     public Page<T> findAll(Specification<T> specification,Pageable pageable) {
@@ -41,6 +47,11 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
     public List<T> saveAll(Iterable<T> entities) {
         this.baseRepository.resetId();
         return this.baseRepository.saveAll(entities);
+    }
+
+    @Override
+    public List<T> findAllById(Iterable<ID> ids) {
+        return baseRepository.findAllById(ids);
     }
 
     public T save(T entity) {
@@ -80,7 +91,6 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
         this.baseRepository.delete(entity);
     }
 
-
     public long count() {
         return this.baseRepository.count();
     }
@@ -92,7 +102,6 @@ public class BaseServiceImpl<T, ID extends Serializable> implements ${groupId}.b
     public long count(Example<T> example) {
         return this.baseRepository.count(example);
     }
-
 
     @Override
     public void executeSql(String... sqls) {

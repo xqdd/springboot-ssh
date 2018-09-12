@@ -2,6 +2,7 @@ package ${groupId}.utils;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ${groupId}.mvc.bean.interact.response.MessageResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -10,8 +11,8 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.http.MediaType;
 
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.GregorianCalendar;
@@ -73,16 +74,16 @@ public class CommUtils {
      * @param vCode       验证码
      * @return 接口返回数据
      */
-    public static ${groupId}.mvc.bean.interact.response.MessageResponse sendPhoneVCode(String phoneNUmber, String vCode) {
+    public static MessageResponse sendPhoneVCode(String phoneNUmber, String vCode) {
         try {
             String messageTemplate = "http://api.jisuapi.com/sms/send?mobile=MOBILE&content=您的手机验证码是@，5分钟内有效。如非本人操作请忽略本短信。【西柚网络】&appkey=秘密";
             messageTemplate = messageTemplate.replaceAll("@", vCode);
             messageTemplate = messageTemplate.replaceAll("MOBILE", phoneNUmber);
             HttpGet httpGet = new HttpGet(messageTemplate);
             CloseableHttpResponse closeableHttpResponse = HttpClients.createDefault().execute(httpGet);
-            ${groupId}.mvc.bean.interact.response.MessageResponse response = new ObjectMapper().readValue(EntityUtils.toString(closeableHttpResponse.getEntity()), ${groupId}.mvc.bean.interact.response.MessageResponse.class);
+            MessageResponse response = new ObjectMapper().readValue(EntityUtils.toString(closeableHttpResponse.getEntity()), MessageResponse.class);
             closeableHttpResponse.close();
-            log.info("发送短信验证码："+response);
+            log.info("发送短信验证码：" + response);
             return response;
         } catch (Exception e) {
             log.error("发送短信验证码失败", e);
@@ -141,12 +142,16 @@ public class CommUtils {
 
     /**
      * 返回json数据
-     * @param response HttpResponse
-     * @param content 要显示的内容
+     *
+     * @param response HttpServletResponse
+     * @param content  要显示的内容
      * @throws IOException HttpResponse有误
      */
-    public static void responseJson(ServletResponse response, Object content) throws IOException {
+    public static void responseJson(HttpServletResponse response, Object content, Integer httpStatusCode) throws IOException {
         response.setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
         response.getWriter().print((new ObjectMapper()).writeValueAsString(content));
+        if (httpStatusCode != null) {
+            response.setStatus(httpStatusCode);
+        }
     }
 }

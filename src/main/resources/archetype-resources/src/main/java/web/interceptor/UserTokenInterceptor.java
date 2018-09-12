@@ -1,5 +1,7 @@
 package ${groupId}.web.interceptor;
 
+import ${groupId}.mvc.bean.interact.response.Result;
+import ${groupId}.utils.CommUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -31,26 +33,22 @@ public class UserTokenInterceptor extends HandlerInterceptorAdapter {
 
         String token = request.getHeader("Authorization");
         if (StringUtils.isBlank(token)) {
-            response.setStatus(401);
-            ${groupId}.utils.CommUtils.responseJson(response, new ${groupId}.mvc.bean.interact.response.ErrorResult(40100, "Token有误"));
+            CommUtils.responseJson(response, Result.error(40100, "Token有误"),401);
             return false;
         }
         ValueOperations opsForValue = redisTemplate.opsForValue();
         String tokenValue[] = token.split("_");
         if (tokenValue.length != 2) {
-            response.setStatus(401);
-            ${groupId}.utils.CommUtils.responseJson(response, new ${groupId}.mvc.bean.interact.response.ErrorResult(40100, "Token有误"));
+            CommUtils.responseJson(response, Result.error(40100, "Token有误"),401);
             return false;
         }
         Object redisTokenValue[] = (Object[]) opsForValue.get("user_token_" + tokenValue[0]);
         if (redisTokenValue == null) {
-            response.setStatus(401);
-            ${groupId}.utils.CommUtils.responseJson(response, new ${groupId}.mvc.bean.interact.response.ErrorResult(40101, "身份验证已失效，请重新登录"));
+            CommUtils.responseJson(response, Result.error(40101, "身份验证已失效，请重新登录"),401);
             return false;
         }
         if (!token.equals(redisTokenValue[0])) {
-            response.setStatus(401);
-            ${groupId}.utils.CommUtils.responseJson(response, new ${groupId}.mvc.bean.interact.response.ErrorResult(40102, "您已经在另一台设备上登录"));
+            CommUtils.responseJson(response, Result.error(40102, "您已经在另一台设备上登录"),401);
             return false;
         }
         session.setAttribute("user", redisTokenValue[1]);

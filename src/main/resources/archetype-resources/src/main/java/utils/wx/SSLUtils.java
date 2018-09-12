@@ -45,7 +45,7 @@ public class SSLUtils {
     }
 
     public static String httpsGet(URI uri) {
-        CloseableHttpClient httpClient = ${groupId}.utils.wx.SSLUtils.createSSLClientDefault();
+        CloseableHttpClient httpClient = SSLUtils.createSSLClientDefault();
         try {
             HttpResponse response = httpClient.execute(new HttpGet(uri));
             return new String(EntityUtils.toString(response.getEntity()).getBytes("iso8859-1"), "utf-8");
@@ -57,7 +57,7 @@ public class SSLUtils {
 
 
     public static String httpsPost(URI uri, HttpEntity entity) {
-        CloseableHttpClient httpClient = ${groupId}.utils.wx.SSLUtils.createSSLClientDefault();
+        CloseableHttpClient httpClient = SSLUtils.createSSLClientDefault();
         try {
             HttpPost httpPost = new HttpPost(uri);
             httpPost.setEntity(entity);

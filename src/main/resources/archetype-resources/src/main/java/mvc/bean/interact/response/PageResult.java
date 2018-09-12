@@ -1,24 +1,36 @@
 package ${groupId}.mvc.bean.interact.response;
 
 
-import ${groupId}.mvc.bean.interact.request.PageInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import ${groupId}.utils.jsonview.CommJsonView;
 import lombok.Data;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 @Data
-public class PageResult {
-    public PageResult(Page page, PageInfo pageInfo) {
-        this.pageData = page.getContent();
-        this.totalPage = page.getTotalPages();
-        this.pageSize = pageInfo.getPageSize();
-        this.currPage = pageInfo.getCurrPage();
+@JsonView(CommJsonView.class)
+class PageResult {
+    PageResult(Page page) {
+        this.content = page.getContent();
+        this.pageSize = page.getSize();
+        this.currPage = page.getNumber() + 1;
+        this.totalPages = page.getTotalPages();
+        this.first = page.isFirst();
+        this.last = page.isLast();
+        this.totalElements = page.getTotalElements();
+        this.currElements = page.getNumberOfElements();
+        this.offset = page.getPageable().getOffset();
     }
 
-    private List pageData;
-    private Integer totalPage;
-    private Integer pageSize;
-    private Integer currPage;
+    private List content;
+    private long totalElements;
+    private long offset;
+    private int totalPages;
+    private int pageSize;
+    private int currPage;
+    private int currElements;
+    private boolean first;
+    private boolean last;
 
 }

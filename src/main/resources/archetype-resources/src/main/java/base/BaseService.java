@@ -14,9 +14,14 @@ public interface BaseService<T, ID extends Serializable> {
 
     Page<T> findAll(Pageable var1);
 
+    List<T> findAll(Specification<T> specification);
+
     Page<T> findAll(Specification<T> specification, Pageable pageable);
 
     List<T> saveAll(Iterable<T> var1);
+
+
+    List<T> findAllById(Iterable<ID> ids);
 
     T save(T var1);
 

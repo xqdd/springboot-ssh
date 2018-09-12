@@ -1,0 +1,20 @@
+package ${groupId}.mvc.service;
+
+import ${groupId}.base.BaseService;
+import ${groupId}.base.impl.BaseServiceImpl;
+import ${groupId}.mvc.repository.__NAME__Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${groupId}.mvc.bean.entity__RELATE_PATH____NAME__;
+
+@Service
+public class __NAME__Service extends BaseServiceImpl<__NAME__, __ID_TYPE__> implements BaseService<__NAME__, __ID_TYPE__> {
+
+    private __NAME__Repository __LOWER_NAME__Repository;
+
+    @Autowired
+    public __NAME__Service(__NAME__Repository __LOWER_NAME__Repository) {
+        super(__LOWER_NAME__Repository);
+        this.__LOWER_NAME__Repository = __LOWER_NAME__Repository;
+    }
+}

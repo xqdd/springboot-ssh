@@ -1,16 +1,16 @@
 package ${groupId}.web.exception;
 
 
-import ${groupId}.mvc.bean.interact.response.ErrorResult;
+import ${groupId}.mvc.bean.interact.response.Result;
 import org.springframework.http.HttpStatus;
 
 public class BusinessException extends RuntimeException {
 
 
     protected HttpStatus httpStatus;
-    protected ErrorResult error;
+    protected Result error;
 
-    public BusinessException(ErrorResult error, HttpStatus httpStatus) {
+    public BusinessException(Result error, HttpStatus httpStatus) {
         this.error = error;
         this.httpStatus = httpStatus;
     }
@@ -23,11 +23,11 @@ public class BusinessException extends RuntimeException {
         this.httpStatus = httpStatus;
     }
 
-    public ErrorResult getError() {
+    public Result getError() {
         return error;
     }
 
-    public void setError(ErrorResult error) {
+    public void setError(Result error) {
         this.error = error;
     }
 }
