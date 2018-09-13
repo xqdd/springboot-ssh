@@ -9,6 +9,7 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
+import springfox.documentation.swagger.web.ModelRendering;
 import springfox.documentation.swagger.web.UiConfiguration;
 import springfox.documentation.swagger.web.UiConfigurationBuilder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
@@ -64,6 +65,9 @@ public class Swagger {
     UiConfiguration uiConfig() {
         return UiConfigurationBuilder.builder()
                 .defaultModelExpandDepth(5)
+                .defaultModelsExpandDepth(5)
+                .defaultModelRendering(ModelRendering.MODEL)
+                .displayRequestDuration(true)
                 .build();
     }
 

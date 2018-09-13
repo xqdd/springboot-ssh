@@ -62,7 +62,12 @@ public class Tools {
                         //获取小写名称
                         String lowerName = Character.toLowerCase(fileNameWithoutSuffix.charAt(0)) + fileNameWithoutSuffix.substring(1);
                         //复制repository
-                        String relatePath = String.join(".", relatePaths) + ".";
+                        String relatePath = String.join(".", relatePaths);
+                        if (relatePath.equals("")) {
+                            relatePath = relatePath + ".";
+                        } else {
+                            relatePath = "." + relatePath + ".";
+                        }
                         if (!repositoryFile.exists()) {
                             try (var writer = new BufferedWriter(new FileWriter(repositoryFile))) {
                                 writer.write(repositoryTemplate
